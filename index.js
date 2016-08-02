@@ -22,7 +22,7 @@ function createMainWindow() {
 		height: 800,//400
 		darkTheme: true,
 		title: "Api Docs Generator",
-		directWrite:true
+		directWrite:true,
     icon: __dirname + '/icon.png'
 		//transparent: true, frame: false
 	});

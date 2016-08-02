@@ -152,7 +152,7 @@ app.controller('appCtrl', function($scope, $mdDialog, $sce, $mdToast, $interval,
 		]
 	};
 
-	vm.form = angular.copy(vm.formTest);
+	vm.form = angular.copy(vm.formDefault);
 
 	//form
 	//{name:'nameuno', type:'typeuno', desc:'descuno'}
