@@ -1,0 +1,45 @@
+{
+  "name": "api-docs-gen",
+  "description": "api docs generator",
+  "main": "index.js",
+  "authors": [
+    "Davide Di Modica"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "api",
+    "docs",
+    "api-docs",
+    "api-docs-generator"
+  ],
+  "homepage": "https://github.com/Linko91/api-docs-gen",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.2.4",
+    "angular-material": "~1.0.9",
+    "underscore": "~1.8.3",
+    "underscore.string": "~3.3.4",
+    "font-awesome": "~4.6.3",
+    "typed.js": "~1.1.1",
+    "moment": "~2.13.0",
+    "animate.css": "^3.5.1",
+    "ng-file-upload": "^12.0.4",
+    "material-design-icons": "^2.2.3",
+    "angular-resizable": "1.2.0",
+    "ng-device-detector": "^3.0.1",
+    "angular-ui-ace": "bower",
+    "angular-highlightjs": "^0.6.1"
+  },
+  "resolutions": {
+    "angular": "1.5.6",
+    "jquery": "~2.2.4"
+  }
+}

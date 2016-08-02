@@ -1,0 +1,141 @@
+<div id="editApi" class="page" ng-if="vm.page.editapi" ng-cloak layout="row">
+	<div class="navbar" id="navbar" resizable r-directions="['right']" r-flex="true">
+		<md-content style="height: 100%;">
+			<md-subheader class="md-accent" ng-click="vm.switchPage('editpro', 1)">
+				<span style="color: rgba(255,255,255,0.7);">{{vm.form.project.name || 'unknown project'}}</span>
+			</md-subheader>
+		    <section style="padding: 0 10px;">
+		    	<md-input-container class="md-block no-error-message" style="margin-bottom: 0;">
+					<label>Search</label>
+					<input ng-model="search_bases">
+				</md-input-container>
+			</section>
+		    <section ng-repeat="(idb, base) in vm.form.bases" class="bases-block">
+				<div class="base-line"></div>
+				<div class="dashed-line"></div>
+				<md-list>
+					<md-list-item class="md-accent base-item" ng-click="vm.editBasePath(2, 1, base, [idb])">
+						<p>{{base.name || 'unknown base'}}</p>
+					</md-list-item>
+					<md-list-item ng-repeat="(idp, path) in base.paths | filter:search_bases" class="path-item" ng-click="vm.editBasePath(2, 2, path, [idb, idp])">
+						<div class="md-list-item-text">
+							<p>{{path.name || 'unknown endpoint'}}</p>
+							<small ng-if="path.description">{{path.description}}</small>
+						</div>
+						<div class="path-line"></div>
+					</md-list-item>
+				</md-list>
+		    </section>
+		</md-content>
+    </div>
+    <div class="main-content">
+    	<md-content style="height: 100%; padding: 10px;">
+            <div class="sub-page" ng-if="vm.subpage.editpro" ng-cloak layout="column">
+            	<h6 class="md-subhead">Project</h6>
+            	<md-divider></md-divider>		  
+            	<h1 class="md-display-1">{{vm.form.project.name || 'Project name'}}</h1>
+            	<p class="md-body-2">{{vm.form.project.description || 'Project description'}}</p>
+            </div>
+            <div class="sub-page" ng-if="vm.subpage.editsrv" ng-cloak layout="column">
+            	<h6 class="md-subhead">Endpoint</h6>
+            	<md-divider></md-divider>		  
+            	<h1 class="md-headline">{{vm.formTmp.name || 'Endpoint name'}}</h1>
+            	<p class="md-body-2">{{vm.formTmp.description || 'Endpoint description'}}</p>
+				<br>
+				<md-input-container class="md-block no-error-message">
+					<label>Search</label>
+					<input ng-model="search_services">
+				</md-input-container>
+				<div class="services-list">
+					<div class="service-box" ng-repeat="(id, service) in vm.formTmp.services | filter:search_services" ng-class="{'open': service.isOpen}" style="position:relative; overflow:hidden;">
+						<div class="srv-view-box {{service.method}}" layout="row" layout-align="start center" ng-click="service.isOpen = !service.isOpen" ng-if="!service.isOpen">
+							<span class="srv-view-method">{{service.method || 'METHOD'}}</span>
+							<span class="srv-view-path"><span class="base-in-path">{{vm.form.bases[vm.formIdsTmp[0]].name}}</span><span class="endpoint-in-path">{{service.path || 'ENDPOINT'}}</span></span>
+							<span class="srv-view-desc">{{service.name || 'TITLE'}}</span>
+						</div>
+						<div class="srv-edit-box" ng-if="service.isOpen">
+							<div layout="column">
+								<h6 class="md-subhead srv-title" ng-click="service.isOpen = !service.isOpen">{{service.name || 'Service title'}}</h6>
+								<div layout="row" class="srv-path {{service.method}}">
+									<span class="srv-view-method">{{service.method || 'METHOD'}}</span>
+									<span class="srv-view-path"><span class="base-in-path">{{vm.form.bases[vm.formIdsTmp[0]].name}}</span><span class="endpoint-in-path">{{service.path || 'ENDPOINT'}}</span></span>
+								</div>
+								<p class="md-body-2">{{service.description || 'Service description'}}</p>
+							</div>
+							<div sticky-contained scroll-container="md-content" sticky-container=".service-box">
+								<span class="srv-view-method">{{service.method || 'METHOD'}}</span>
+								<span class="srv-view-path"><span class="base-in-path">{{vm.form.bases[vm.formIdsTmp[0]].name}}</span><span class="endpoint-in-path">{{service.path || 'ENDPOINT'}}</span></span>
+								<span class="srv-view-desc">{{service.name || 'TITLE'}}</span>
+							</div>
+							<div class="content-box service-sub-list" flex ng-if="service.body || service.form.length">
+								<p class="md-body-1">Body ({{service.type}})</p>
+								<div ng-if="service.type != 'form'" style="height: 200px; margin-bottom: 20px;" resizable r-directions="['bottom']" r-flex="false">
+									<div hljs hljs-source="service.body"></div>
+								</div>
+								<div layout-gt-xs="row" ng-repeat="(keyf, form) in service.form" class="service-sub-list-item" ng-if="service.type === 'form'">
+									<md-input-container class="md-block no-error-message" flex-gt-xs>
+										<label>NAME</label>
+										<input ng-model="form.name" readonly>
+									</md-input-container>
+									<md-input-container class="md-block no-error-message" flex-gt-xs>
+										<label>DESCRIPTION</label>
+										<input ng-model="form.desc" readonly>
+									</md-input-container>		
+								</div>
+							</div>
+							<div class="query-box service-sub-list" flex ng-if="service.query.length">
+								<p class="md-body-1">Query string</p>
+								<div layout-gt-xs="row" ng-repeat="(keyq, query) in service.query" class="service-sub-list-item">
+									<md-input-container class="md-block no-error-message" flex-gt-xs>
+										<label>NAME</label>
+										<input ng-model="query.name" readonly>
+									</md-input-container>
+									<md-input-container class="md-block no-error-message" flex-gt-xs>
+										<label>DESCRIPTION</label>
+										<input ng-model="query.desc" readonly>
+									</md-input-container>	
+								</div>
+							</div>
+							<div class="headers-box service-sub-list" flex ng-if="service.headers.length">
+								<p class="md-body-1">Headers</p>
+								<div layout-gt-xs="row" ng-repeat="(keyh, header) in service.headers" class="service-sub-list-item">
+									<md-input-container class="md-block no-error-message" flex-gt-xs>
+										<label>NAME</label>
+										<input ng-model="header.name" readonly>
+									</md-input-container>
+									<md-input-container class="md-block no-error-message" flex-gt-xs>
+										<label>DESCRIPTION</label>
+										<input ng-model="header.desc" readonly>
+									</md-input-container>
+								</div>
+							</div>
+							<div class="response-box service-sub-list" flex ng-if="service.responses.length">
+								<p class="md-body-1">Responses</p>
+								<div ng-repeat="(keyr, response) in service.responses" class="service-sub-list-item">
+									<div layout-gt-xs="row">
+										{{response.code || 'Response code'}} : {{response.desc || 'Response description'}}
+									</div>
+									<div layout-gt-xs="row" ng-if="response.body" style="margin-top: 10px;">
+										<div flex-gt-xs class="md-block" style="height: 100px; margin-bottom: 20px;" resizable r-directions="['bottom']" r-flex="false">
+											<p class="md-body-1 label-ace label-ace-no-empty">BODY ({{response.type}})</p>
+											<div hljs hljs-source="response.body" style="margin-bottom: -10px;"></div>
+									    </div>
+									</div>
+								</div>
+							</div>
+							<div layout-gt-xs="row">
+								<md-button class="md-raised md-primary" ng-click="service.isOpen = !service.isOpen" style="margin-left: 0;"><md-icon class="small-icon">check</md-icon> close</md-button>
+							</div>
+						</div>
+					</div>
+				</div>
+            </div>
+            <div class="sub-page" ng-if="vm.subpage.editbase" ng-cloak layout="column">
+            	<h6 class="md-subhead">Base</h6>
+            	<md-divider></md-divider>		  
+            	<h1 class="md-headline">{{vm.formTmp.name || 'Base name'}}</h1>
+            	<p class="md-body-2">{{vm.formTmp.description || 'Base description'}}</p>
+            </div>
+		</md-content>
+    </div>
+</div>
