@@ -4,6 +4,8 @@ CHANGELOG
 `1.2.0` 02/08/2016 11:08
 ----
  * update changelog.
+ * update icon.
+ * update changelog.
  * add icon.
 
 `1.1.0` 01/08/2016 17:52
